@@ -36,6 +36,6 @@ void PutDec (INT8U x2);
 void PC_Attribute (INT8U fgcolor, INT8U bgcolor);
 void PC_DispClrScr (void);
 void PC_DispChar (INT8U x, INT8U y, char c, INT8U fgcolor, INT8U bgcolor);
-void PC_DispStr (INT8U x, INT8U y, char *s, INT8U fgcolor, INT8U bgcolor);
+void PC_DispStr (INT8U x, INT8U y, const char *s, INT8U fgcolor, INT8U bgcolor);
 
 #endif

@@ -136,7 +136,7 @@ void PC_DispChar (INT8U x, INT8U y, char c, INT8U fgcolor, INT8U bgcolor)
     OSSemPost(DispStrSem);                              /* Release semaphore                                */
 }
 
-void PC_DispStr (INT8U x, INT8U y, char *s, INT8U fgcolor, INT8U bgcolor)
+void PC_DispStr (INT8U x, INT8U y, const char *s, INT8U fgcolor, INT8U bgcolor)
 {
     INT8U err;
 

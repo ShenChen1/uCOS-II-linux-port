@@ -195,7 +195,7 @@ void OSTickISR(void)
 void OSTimeTickSigHandler(int signo, siginfo_t* info, /*struct ucontext* */ void* uc)
 {
     if ((((ucontext_t*)uc)->uc_mcontext.gregs[REG_EIP] >= (unsigned int)setcontext) &&
-        (((ucontext_t*)uc)->uc_mcontext.gregs[REG_EIP] < (unsigned int)(setcontext + 110))) {
+        (((ucontext_t*)uc)->uc_mcontext.gregs[REG_EIP] < ((unsigned int)setcontext + 110))) {
             //fprintf(stderr, "sig timer: thread interrupted in setcontext\n");
         return;
     }
