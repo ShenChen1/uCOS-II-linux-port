@@ -214,7 +214,7 @@ static  void  TaskStartDisp (void)
     sprintf(s, "%5d", OSCtxSwCtr);                                 /* Display #context switches per second */  
     PC_DispStr(18, 23, s, COLOR_YELLOW , COLOR_BLUE);  
   
-    sprintf(s, "V%4.2f", (float)OSVersion() * 0.01);               /* Display uC/OS-II's version number    */  
+    sprintf(s, "V%1d.%02d", OSVersion() / 100, OSVersion() % 100); /* Display uC/OS-II's version number    */  
     PC_DispStr(75, 24, s, COLOR_YELLOW , COLOR_BLUE);  
   
 } 

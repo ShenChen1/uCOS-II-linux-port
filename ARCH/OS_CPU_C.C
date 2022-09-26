@@ -20,7 +20,6 @@
 #define  OS_CPU_GLOBALS
 #include "includes.h"
 
-#include <asm/sigcontext.h> // for context switching
 #include <ucontext.h>   // for context switching
 #include <string.h>
 #include <unistd.h>   // used for syscalls:
@@ -94,7 +93,7 @@ void OSStartHighRdy(void)
     {
     ucontext_t* ucp;
 
-    ucp = (struct ucontext*)(OSTCBHighRdy->OSTCBStkPtr);
+    ucp = (ucontext_t*)(OSTCBHighRdy->OSTCBStkPtr);
     setcontext(ucp);
     // not reached
     }
@@ -123,7 +122,7 @@ void OSIntCtxSw(void)
  */
 void OSCtxSw(void)
 {
-    struct ucontext* uc = (struct ucontext*)OSTCBHighRdy->OSTCBStkPtr;
+    ucontext_t* uc = (ucontext_t*)OSTCBHighRdy->OSTCBStkPtr;
 
     // at this point, registers are already saved on stack
 #if (OS_CPU_HOOKS_EN > 0) && (OS_TASK_SW_HOOK_EN > 0)
@@ -134,8 +133,8 @@ void OSCtxSw(void)
     OSPrioCur = OSPrioHighRdy;
 
     //if (uc->uc_mcontext.fpregs == 0) {
-      //  fprintf(stderr, "ctx sw: uc->uc_mcontext.fpregs == 0\n");
-        //uc->uc_mcontext.fpregs = (fpregset_t)0xbffff6cc;
+    //    fprintf(stderr, "ctx sw: uc->uc_mcontext.fpregs == 0\n");
+    //    uc->uc_mcontext.fpregs = (fpregset_t)0xbffff6cc;
     //}
     setcontext(uc);
 }
@@ -196,12 +195,12 @@ void OSTimeTickSigHandler(int signo, siginfo_t* info, /*struct ucontext* */ void
 {
     if ((((ucontext_t*)uc)->uc_mcontext.gregs[REG_EIP] >= (unsigned int)setcontext) &&
         (((ucontext_t*)uc)->uc_mcontext.gregs[REG_EIP] < ((unsigned int)setcontext + 110))) {
-            //fprintf(stderr, "sig timer: thread interrupted in setcontext\n");
+        //fprintf(stderr, "sig timer: thread interrupted in setcontext\n");
         return;
     }
     if (((ucontext_t*)uc)->uc_mcontext.fpregs == 0) {
-            //fprintf(stderr, "sig timer: uc->uc_mcontext.fpregs == 0\n");
-            return;
+        //fprintf(stderr, "sig timer: uc->uc_mcontext.fpregs == 0\n");
+        return;
     }
     OSTCBCur->OSTCBStkPtr = (OS_STK *)uc; //stk;
     OSTickISR();
@@ -240,10 +239,9 @@ void linuxInit()
     act.sa_flags = SA_SIGINFO;// | SA_ONSTACK;
     act.sa_mask = mask;
     sigaction(SIGALRM, &act, NULL);
-    sigaction(SIGVTALRM, &act, NULL);
 
     sigemptyset(&mask);
-    act.sa_sigaction = OSCtxSwSigHandler;//
+    act.sa_sigaction = OSCtxSwSigHandler;
     act.sa_flags = SA_SIGINFO;// | SA_ONSTACK;
     act.sa_mask = mask;
     sigaction(SIGUSR1, &act, NULL);

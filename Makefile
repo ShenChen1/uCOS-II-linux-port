@@ -1,12 +1,12 @@
-CC	= g++
+CC	= gcc
 
-CFLAGS += -g
-CFLAGS += -I./CentOS 
+CFLAGS += -g -m32
+CFLAGS += -I./ARCH 
 CFLAGS += -I./SOURCE
 
-SRCS = ./CentOS/OS_CPU_C.C ./CentOS/Utils.C ./SOURCE/uCOS_II.C 
+SRCS = ./ARCH/OS_CPU_C.C ./ARCH/Utils.C ./SOURCE/uCOS_II.C 
 
-EXEC = ./TEST//bin.exec  
+EXEC = ./TEST/bin.exec  
 EXEC_1 = ./EX1_x86L/bin.exec
 EXEC_2 = ./EX2_x86L/bin.exec
 EXEC_3 = ./EX3_x86L/bin.exec
